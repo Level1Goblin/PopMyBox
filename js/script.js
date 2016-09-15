@@ -14,6 +14,8 @@ How to incorporate WuFoo forms:
         -When a user submits on the fake form, insert the values into the WuFoo form and submit it.
 */
 
+var readyForNext = true;
+
 function decideCardType() {
     "use strict";
     var randomNumber,
@@ -35,14 +37,25 @@ function decideCardType() {
         console.log(card.possibilties);
     }
     return card;
-
 }
 
 function getRandomNumber(cardArray) {
     "use strict";
     var randomNumber = Math.floor(Math.random() * cardArray.length);
     return randomNumber;
+}
 
+
+function typeText(card, text, textLength, subString) {
+    'use strict';
+
+    subString = text.substr(0, textLength);
+    textLength = textLength + 1;
+    card.placeholder = subString;
+    if (text === subString) { return true; }
+    setTimeout(function () {
+        typeText(card, text, textLength, subString);
+    }, 80);
 }
 
 function changeCardText() {
@@ -50,6 +63,8 @@ function changeCardText() {
     var card = decideCardType(),
         cardToChange,
         textLength = 0,
+        readyForNext = false,
+        subString = "",
         randomNumber = getRandomNumber(card.possibilties);
     
     switch (card.type) {
@@ -66,7 +81,15 @@ function changeCardText() {
         cardToChange = "unknown card";
         console.log(cardToChange);
     }
-    cardToChange.placeholder = card.possibilties[randomNumber];
+    //typeText(cardToChange.placeholder = card.possibilties[randomNumber]);
+    readyForNext = typeText(cardToChange, card.possibilties[randomNumber], textLength, subString);
+    return readyForNext;
 }
 
-setInterval(changeCardText, 1000);
+changeCardText()
+
+if (readyForNext) {
+    readyForNext = setInterval(changeCardText, 1500);
+}
+
+
