@@ -66,7 +66,7 @@ function changeCardText() {
         cardToChange = "unknown card";
         console.log(cardToChange);
     }
-    cardToChange.value = card.possibilties[randomNumber];
+    cardToChange.placeholder = card.possibilties[randomNumber];
 }
 
 setInterval(changeCardText, 1000);
