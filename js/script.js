@@ -16,21 +16,32 @@ How to incorporate WuFoo forms:
 
 var readyForNext = true;
 
+var pinkCardOptions = [
+  'Faking an Orgasm',
+  'Six Inches',
+  'Slowly eating a banana while making eye contact with strangers'
+];
+
+var whiteCardOptions = [
+  'The best orgasm comes when you think about ___ while screaming ___.',
+  'Basic single card'
+];
+
 function decideCardType() {
     "use strict";
     var randomNumber,
         card = {};
-    
+
     randomNumber = Math.floor(Math.random() * 2);
-    
+
     switch (randomNumber) {
     case 0:
         card.type = "white";
-        card.possibilties = ["this", "that", "these"];
+        card.possibilties = whiteCardOptions;
         break;
     case 1:
         card.type = "pink";
-        card.possibilties = ["this2", "that2", "these2"];
+        card.possibilties = pinkCardOptions;
         break;
     default:
         card.possibilties = "unknown card type";
@@ -66,7 +77,7 @@ function changeCardText() {
         readyForNext = false,
         subString = "",
         randomNumber = getRandomNumber(card.possibilties);
-    
+
     switch (card.type) {
     case "white":
         cardToChange = document.getElementById("card__input--white");
@@ -91,5 +102,3 @@ changeCardText()
 if (readyForNext) {
     readyForNext = setInterval(changeCardText, 1500);
 }
-
-
