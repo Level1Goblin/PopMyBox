@@ -38,17 +38,6 @@ function buildCardText(cardType) {
   return cardText;
 }
 
-var pinkCardOptions = [
-  'Faking an Orgasm',
-  'Six Inches',
-  'Slowly eating a banana while making eye contact with strangers'
-];
-
-var whiteCardOptions = [
-  'The best orgasm comes when you think about ___ while screaming ___.',
-  'Basic single card'
-];
-
 function decideCardType() {
     "use strict";
     var randomNumber,
@@ -59,20 +48,12 @@ function decideCardType() {
     switch (randomNumber) {
     case 0:
         card.type = "white";
-<<<<<<< HEAD
-        card.possibilties = whiteCardOptions;
-        break;
-    case 1:
-        card.type = "pink";
-        card.possibilties = pinkCardOptions;
-=======
         card.possibilties = buildCardText(card.type);
         break;
     case 1:
         card.type = "pink";
         card.possibilties = buildCardText(card.type);
         console.log(card.possibilties);
->>>>>>> upstream/master
         break;
     default:
         card.possibilties = "unknown card type";
