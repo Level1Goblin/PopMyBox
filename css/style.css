@@ -1,7 +1,7 @@
 /* Notes */
 /*
 To calculate ratios for cards: http://andrew.hedges.name/experiments/aspect_ratio/
-We could probably build out a little calc funciton in either JS or CSS to automate 
+We could probably build out a little calc funciton in either JS or CSS to automate
 */
 
 /* General */
@@ -16,10 +16,10 @@ We could probably build out a little calc funciton in either JS or CSS to automa
 	font-weight: bold;
 	font-style: normal;
 }
-::-webkit-input-placeholder { 
+::-webkit-input-placeholder {
   color: inherit;
 }
-::-moz-placeholder { 
+::-moz-placeholder {
   color: inherit;
 }
 :-ms-input-placeholder {
@@ -76,7 +76,7 @@ body {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  
+
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
     -webkit-flex-direction: row;
@@ -125,13 +125,15 @@ body {
   background-color: #FFFFFF;
   border-color: #FFFFFF;
   margin-right: 5vw;
-    color: #000000;
+  color: #D22196;
+	text-transform: none;
 }
 .card--pink {
   background-color: #D22196;
   border-color: #D22196;
   margin-left: 5vw;
-    color: #FFFFFF;
+  color: #FFFFFF;
+	text-transform: uppercase;
 }
 .card--hidden {
   display: none;
@@ -150,7 +152,7 @@ body {
   height: 100%;
     font-family: 'Platform';
     color: inherit;
-    text-transform: uppercase;
+    text-transform: inherit;
     font-size: 48px;
 }
 
@@ -189,5 +191,5 @@ body {
     .primary-logo{width:100vw;}
     .card{width:60vw;height:77vw;}
     .card--white,.card--pink{margin: 5vw 0;}
-    
+
 }
