@@ -1,9 +1,6 @@
 /*
 Notes:
--Build out func. for stopping time on user input; don't restart if a value has been entered in by the user.
--Build out func. to determine if a user has entered input, and if so, decide which card(s) should be sent.
 -Build out func. for secondPinkCard; a.k.a Double Team
--Build out typing animation
 -Build out blinking cursor
 
 How to incorporate WuFoo forms:
@@ -12,9 +9,34 @@ How to incorporate WuFoo forms:
         -Put form on page
         -Hide WuFoo form
         -When a user submits on the fake form, insert the values into the WuFoo form and submit it.
+-There might be a way to pull a 'dictionary' for the card.possibilties
 */
 
-var readyForNext = true;
+var timer = null;
+
+
+function buildCardText(cardType) {
+  var cardDictionary = JSON.parse(dictionaries),
+  dictionaryToUse,
+  blank = "_____",
+  cardText = [];
+
+  switch (cardType) {
+  case "white":
+    dictionaryToUse = cardDictionary.whiteCardDictionary;
+    break;
+  case "pinkDouble":
+    dictionaryToUse = cardDictionary.whiteDoubleCardDictionary;
+    break;
+  case "pink":
+    dictionaryToUse = cardDictionary.pinkCardDictionary;
+    break;
+  }
+  for (var i = 0; i < dictionaryToUse.length; i++) {
+    cardText.push( dictionaryToUse[i].cardText.replace(/{%blank%}/g, blank));
+  }
+  return cardText;
+}
 
 var pinkCardOptions = [
   'Faking an Orgasm',
@@ -37,11 +59,20 @@ function decideCardType() {
     switch (randomNumber) {
     case 0:
         card.type = "white";
+<<<<<<< HEAD
         card.possibilties = whiteCardOptions;
         break;
     case 1:
         card.type = "pink";
         card.possibilties = pinkCardOptions;
+=======
+        card.possibilties = buildCardText(card.type);
+        break;
+    case 1:
+        card.type = "pink";
+        card.possibilties = buildCardText(card.type);
+        console.log(card.possibilties);
+>>>>>>> upstream/master
         break;
     default:
         card.possibilties = "unknown card type";
@@ -60,13 +91,17 @@ function getRandomNumber(cardArray) {
 function typeText(card, text, textLength, subString) {
     'use strict';
 
+    runTrigger(false); //stop the overall timer, and let the loop run.
     subString = text.substr(0, textLength);
     textLength = textLength + 1;
     card.placeholder = subString;
-    if (text === subString) { return true; }
+    if (text === subString) {
+      runTrigger(true, 1500);
+      return;
+    }
     setTimeout(function () {
         typeText(card, text, textLength, subString);
-    }, 80);
+    }, 50);
 }
 
 function changeCardText() {
@@ -74,7 +109,6 @@ function changeCardText() {
     var card = decideCardType(),
         cardToChange,
         textLength = 0,
-        readyForNext = false,
         subString = "",
         randomNumber = getRandomNumber(card.possibilties);
 
@@ -92,13 +126,15 @@ function changeCardText() {
         cardToChange = "unknown card";
         console.log(cardToChange);
     }
-    //typeText(cardToChange.placeholder = card.possibilties[randomNumber]);
-    readyForNext = typeText(cardToChange, card.possibilties[randomNumber], textLength, subString);
-    return readyForNext;
+    typeText(cardToChange, card.possibilties[randomNumber], textLength, subString);
 }
 
-changeCardText()
-
-if (readyForNext) {
-    readyForNext = setInterval(changeCardText, 1500);
+runTrigger(true, 1500); //ensure that the script fires
+function runTrigger(flag, time) {
+  if (flag) {
+    timer = setInterval(changeCardText, time);
+  }
+  else {
+    clearInterval(timer);
+  }
 }
