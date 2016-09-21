@@ -1,29 +1,23 @@
 /* Notes */
+
+
 /*
 To calculate ratios for cards: http://andrew.hedges.name/experiments/aspect_ratio/
 We could probably build out a little calc funciton in either JS or CSS to automate
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 Placing in Source Sans Pro to increase font-rendering quality and available widths
 font-family: 'Source Sans Pro', sans-serif;
-=======
->>>>>>> upstream/master
-=======
->>>>>>> upstream/master
 */
+
 
 /* General */
 
 @font-face {
-	font-family: 'Platform';
-	src: url('../fonts/Platform-Bold.eot');
-	src: url('../fonts/Platform-Bold.eot?#iefix') format('embedded-opentype'),
-		url('../fonts/Platform-Bold.woff') format('woff'),
-		url('../fonts/Platform-Bold.ttf') format('truetype'),
-		url('../fonts/Platform-Bold.svg#Platform-Bold') format('svg');
-	font-weight: bold;
-	font-style: normal;
+  font-family: 'Platform';
+  src: url('../fonts/Platform-Bold.eot');
+  src: url('../fonts/Platform-Bold.eot?#iefix') format('embedded-opentype'), url('../fonts/Platform-Bold.woff') format('woff'), url('../fonts/Platform-Bold.ttf') format('truetype'), url('../fonts/Platform-Bold.svg#Platform-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
 }
 ::-webkit-input-placeholder {
   color: inherit;
@@ -37,10 +31,9 @@ font-family: 'Source Sans Pro', sans-serif;
 :-moz-placeholder {
   color: inherit;
 }
-
 html {
-    -moz-box-shadow: inset 10px 10px 20px rgba(255,255,255, 1);
-    -webkit-box-shadow: inset 10px 10px 20px rgba(255,255,255, 1);
+  -moz-box-shadow: inset 10px 10px 20px rgba(255, 255, 255, 1);
+  -webkit-box-shadow: inset 10px 10px 20px rgba(255, 255, 255, 1);
 }
 body {
   -webkit-font-smoothing: antialiased;
@@ -53,20 +46,14 @@ svg {
   width: 100%;
 }
 body {
-  background: repeating-linear-gradient(
-    -45deg,
-    rgb(245, 245, 245),
-    rgb(245, 245, 245) 10vh,
-    rgb(250, 250, 250) 10vh,
-    rgb(250, 250, 250) 20vh
-  );
+  background: repeating-linear-gradient( -45deg, rgb(245, 245, 245), rgb(245, 245, 245) 10vh, rgb(250, 250, 250) 10vh, rgb(250, 250, 250) 20vh);
   background-size: 200%;
   background-position: fixed;
 }
 .primary-logo {
-    display: block;
-    width: 50%;
-    margin: 10vh auto;
+  display: block;
+  width: 50%;
+  margin: 10vh auto;
 }
 .content-wrapper {
   width: 100%;
@@ -74,9 +61,7 @@ body {
   margin: 0 auto;
   padding: 0 10vw;
 }
-.content-section {
-
-}
+.content-section {}
 .content-section--vpHeight {
   height: 100vh;
 }
@@ -85,12 +70,11 @@ body {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
 }
 .flex--center {
   align-items: center;
@@ -113,6 +97,7 @@ body {
 }
 
 /* Card */
+
 .card {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -135,16 +120,16 @@ body {
   border-color: #FFFFFF;
   margin-right: 5vw;
   color: #D22196;
-	text-transform: none;
+  text-transform: none;
 }
 .card--pink {
   background-color: #D22196;
   border-color: #ffffff;
-	background-image: url('../assets/images/pink_bg_1500x2100.jpg');
-	background-size: cover;
-	background-position: center;
+  background-image: url('../assets/images/pink_bg_1500x2100.jpg');
+  background-size: cover;
+  background-position: center;
   margin: 0 4vw 0 1vw;
-	color: #FFFFFF;
+  color: #FFFFFF;
 }
 .card--hidden {
   display: none;
@@ -155,58 +140,83 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 .card--white .card__inner {
-	padding: 2rem 1rem;
+  padding: 2rem 1rem;
 }
 .card--pink .card__inner {
-	padding: 2rem;
+  padding: 2rem;
 }
 .card__input {
   position: absolute;
   top: 2rem;
   height: calc(100% - 4rem);
   font-family: 'Source Sans Pro', "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;
-	font-weight: 900;
+  font-weight: 900;
   color: inherit;
 }
 .card--white .card__input {
   width: calc(100% - 2rem);
   font-size: 24px;
-	line-height: 1.4;
+  line-height: 1.4;
 }
 .card--pink .card__input {
   width: calc(100% - 4rem);
   font-size: 48px;
-	line-height: .9;
+  line-height: .9;
   text-transform: uppercase;
 }
 .card__inner--dynamic {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 3.25rem;
-	background-color: white;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3.25rem;
+  background-color: white;
   font-family: 'Source Sans Pro', "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;
   color: inherit;
   font-size: 20px;
 }
 .card__inner--dynamic p {
-	margin: 0 0 0 1rem;
-	line-height: 1;
+  margin: 0 0 0 1rem;
+  line-height: 1;
 }
 .card__inner--dynamic p:nth-of-type(1) {
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
+  position: relative;
+  width: 100%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.card__inner--dynamic p:nth-of-type(1)::after {
+  position: absolute;
+  right: 2rem;
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: .4em solid transparent;
+  border-right: .4em solid transparent;
+  border-top: .5em solid rgba(210, 33, 150, 1.0);
 }
 .card__inner--dynamic p {
-	font-weight: 300;
+  font-weight: 300;
+}
+
+/* Span element for underline 'Double Team' options */
+span.underline-span[contenteditable],
+span.underline-span {
+	display: inline-block;
+	width: 3rem;
+	height: 1em;
+	margin: 0 .25em;
+	padding: 0;
+	line-height: inherit;
+	border-bottom: 1px solid currentColor;
 }
 
 /* LG */
+
 @media all and (max-width:960px) {
   .flex--lg {
     -webkit-box-orient: vertical;
@@ -217,6 +227,7 @@ body {
 }
 
 /* MD */
+
 @media all and (max-width:720px) {
   .flex--md {
     -webkit-box-orient: vertical;
@@ -227,6 +238,7 @@ body {
 }
 
 /* SM */
+
 @media all and (max-width:480px) {
   .flex--sm {
     -webkit-box-orient: vertical;
@@ -234,8 +246,14 @@ body {
     -ms-flex-direction: column;
     flex-direction: column;
   }
-    .primary-logo{width:100vw;}
-    .card{width:60vw;height:77vw;}
-    .card--white,.card--pink{margin: 5vw 0;}
-
+  .primary-logo {
+    width: 100vw;
+  }
+  .card {
+    width: 60vw;
+    height: 77vw;
+  }
+  .card--white, .card--pink {
+    margin: 5vw 0;
+  }
 }

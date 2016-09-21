@@ -14,7 +14,6 @@ How to incorporate WuFoo forms:
 
 var timer = null;
 
-
 function buildCardText(cardType) {
   var cardDictionary = JSON.parse(dictionaries),
   dictionaryToUse,
