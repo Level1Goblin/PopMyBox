@@ -16,11 +16,11 @@
   <article class="content-wrapper">
     <div class="content-section--vpHeight">
     <img class="primary-logo" src="assets/svgs/pr-logo.svg">
-        <form class="content-section flex flex--sm flex--center">
+        <form action="post.php" method="POST" name="popMyBox" class="content-section flex flex--sm flex--center">
           <!-- Left Card -->
           <div class="card card--white">
             <div class="card__inner">
-              <textarea id="card__input--white" class="card__input" name="card__input--white" autofocus></textarea>
+              <textarea id="card__input--white" class="card__input" name="card--white" autofocus></textarea>
             </div>
             <div class="card__inner--dynamic">
               <p>Double Team</p>
@@ -30,15 +30,16 @@
           <!-- Right Card -->
           <div class="card card--pink">
             <div class="card__inner">
-              <textarea id="card__input--pink" class="card__input" name="card__input--pink"></textarea>
+              <textarea id="card__input--pink" class="card__input" name="card--pink"></textarea>
             </div>
           </div>
           <!-- Second Right Card -->
           <div class="card card--pink card--hidden">
             <div class="card__inner">
-              <textarea id="card__input--secondPink" class="card__input" name="card__input--secondPink"></textarea>
+              <textarea id="card__input--secondPink" class="card__input" name="card--secondPink"></textarea>
             </div>
           </div>
+          <input type="submit" value="submit">
         </form>
     </div>
   </article>
