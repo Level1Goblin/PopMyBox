@@ -138,7 +138,7 @@ checkIndex = (cardColorValue) => {
 
 // Function to set the proper z-index if 'lower' card is selected
 updateIndex = (top, bottom, animateDirection) => {
-  var twentyPercentWidth = 20;
+  var twentyPercentWidth = 10;
   var currentLeft =  convertPXtoVW(parseInt(top.css('left')));
   var currentTop = parseInt(top.css('top'));
   var angle;
@@ -154,10 +154,6 @@ updateIndex = (top, bottom, animateDirection) => {
     default:
       moveLeft = Math.abs(currentLeft - twentyPercentWidth);
   }
-  console.log(twentyPercentWidth);
-  console.log("current left val:" + currentLeft);
-  console.log("move left val:" + moveLeft);
-  console.log(orignalLeft);
   top.css({ 'transform': 'rotate(' + angle + ( (Math.random() * 6) + 1 ).toFixed(2) + 'deg)' });
   top.animate({
     left: moveLeft + 'vw',
