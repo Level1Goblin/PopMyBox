@@ -52,11 +52,11 @@ function decideCardType() {
     case 1:
         card.type = "pink";
         card.possibilties = buildCardText(card.type);
-        console.log(card.possibilties);
+        //console.log(card.possibilties);
         break;
     default:
         card.possibilties = "unknown card type";
-        console.log(card.possibilties);
+        //console.log(card.possibilties);
     }
     return card;
 }
