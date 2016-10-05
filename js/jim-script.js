@@ -69,6 +69,11 @@ var $pinkLeftInput = $('#main-card-pink-left div textarea.card__input');
 var $pinkRight = $('#main-card-pink-right');
 var $pinkRightInput = $('#main-card-pink-right div textarea.card__input');
 
+function convertPXtoVW(pxVal) {
+  var vwVal = (100 / document.body.clientWidth) * pxVal; //don't cache document.body.clientWidth, we need this get a new value each time.
+  return vwVal;
+};
+
 $allCardInputs.on('focus', function() {
   var clicked = $(this);
   var inputColor = $(this).attr('card');
@@ -133,31 +138,34 @@ checkIndex = (cardColorValue) => {
 
 // Function to set the proper z-index if 'lower' card is selected
 updateIndex = (top, bottom, animateDirection) => {
-  var twentyPercentWidth = ($(window).width()) / 5;
-  var currentLeft = parseInt(top.css('left'));
+  var twentyPercentWidth = 20;
+  var currentLeft =  convertPXtoVW(parseInt(top.css('left')));
   var currentTop = parseInt(top.css('top'));
   var angle;
-
   switch(animateDirection) {
     case 'left':
-      moveLeft = currentLeft - twentyPercentWidth;
+      moveLeft = Math.abs(currentLeft - twentyPercentWidth);
       angle = '-';
       break;
     case 'right':
-      moveLeft = currentLeft + twentyPercentWidth;
+      moveLeft = Math.abs(currentLeft + twentyPercentWidth);
       angle = '+';
       break;
     default:
-      moveLeft = currentLeft - twentyPercentWidth;
+      moveLeft = Math.abs(currentLeft - twentyPercentWidth);
   }
+  console.log(twentyPercentWidth);
+  console.log("current left val:" + currentLeft);
+  console.log("move left val:" + moveLeft);
+  console.log(orignalLeft);
   top.css({ 'transform': 'rotate(' + angle + ( (Math.random() * 6) + 1 ).toFixed(2) + 'deg)' });
   top.animate({
-    left: moveLeft,
+    left: moveLeft + 'vw',
     top: currentTop + 50
   }, 350, function() {
     $(this).css('z-index', index++);
     top.animate({
-      left: currentLeft,
+      left: currentLeft + 'vw',
       top: currentTop
     }, 350);
   });
