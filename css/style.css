@@ -233,30 +233,25 @@ nav {
 /* Card positioning and base animation values */
 #main-card-white {
   top: 150%;
-}
-#main-card-pink-right {
-  top: 150%;
+  z-index: 50;
 }
 #main-card-pink-left {
   top: 150%;
+  z-index: 52;
+}
+#main-card-pink-right {
+  display: none;
+  top: 150%;
+  z-index: 51;
 }
 #main-card-white.dealt {
-  top: calc(50% - 23.6vw);
-  left: 12.5vw;
-  z-index: 325;
   transform: rotate(-1.5deg);
 }
 #main-card-pink-left.dealt {
-  top: calc(50% - 23.6vw);
-  left: 45vw;
-  z-index: 350;
-  transform: rotate(-3deg);
+  transform: rotate(2deg);
 }
 #main-card-pink-right.dealt {
-  top: calc(50% - 23.6vw);
-  left: 60vw;
-  z-index: 300;
-  transform: rotate(2deg);
+  transform: rotate(3deg);
 }
 
 /* Card interface */

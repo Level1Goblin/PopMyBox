@@ -42,21 +42,14 @@ Indicator Triggers:
 
 */
 
-// I set ALL the variables to start!!
-var $allCardInputs,
-    $allCards,
-    $whiteCard,
-    $pinkCardLeft,
-    $pinkCardRight,
-    $allCardIndicators,
-    $whiteCardIndicator,
-    $pinkCardIndicatorLeft,
-    $pinkCardIndicatorRight;
-
 // Set doubleTeam to True for testing
 var doubleTeam = true;
-var index = 351;
+var currentIndex = 52;
+var twentyPercentWidth = 20;
+var angleOrientation;
+var leftVal;
 
+var $allCards = $('div.card');
 var $allCardInputs = $('textarea.card__input');
 var $allCardIndicators = $('svg.indicator');
 
@@ -69,101 +62,137 @@ var $pinkLeftInput = $('#main-card-pink-left div textarea.card__input');
 var $pinkRight = $('#main-card-pink-right');
 var $pinkRightInput = $('#main-card-pink-right div textarea.card__input');
 
+var $cardHeight = $white.height();
+var fiftyPercentHeight = (window.innerHeight / 2) - ($cardHeight / 1.5);
+
+/* 'Set the stage on page load' */
+(function() {
+  $pinkLeft.css('z-index', 52);
+  dealCards();
+})();
+
+/* Deal the cards */
+function dealCards() {
+  $.each($allCards, function( index, value ) {
+    $(this).animate({
+      top: fiftyPercentHeight
+    }, 500, function() {
+      switch(index) {
+        case 0:
+          leftVal = '20vw';
+          break;
+        case 1:
+          leftVal = '55vw';
+          break;
+        case 2:
+          leftVal = '60vw';
+          break;
+        default:
+          leftVal = '20vw';
+      }
+      $(this).addClass('dealt');
+      $(this).animate({
+        left: leftVal
+      }, 350);
+    });
+  });
+}
+
+/* Collect the cards, remove from view */
+function clearCards() {
+  $.each($allCards, function( index, value ) {
+    $(this).animate({
+      top: '150%'
+    }, 500);
+  });
+}
+
+/* Event Handler - on focus forms : Controlling Function */
+$allCardInputs.on('focus', function(event) {
+  var inputColor = $(this).attr('card');
+  updateIndicators(inputColor);
+  if(inputColor != 'white' && isOnTop($(this))) {
+    currentIndex++;
+    checkIndex(inputColor);
+  }
+});
+
+/* Event Handler - on click icons : Controlling Function */
+$allCardIndicators.on('click', function() {
+  var indicatorColor = $(this).attr('card');
+  var associatedCard = $('textarea.card__input[card= ' + indicatorColor + ']');
+
+  if(!$(this).hasClass('active')) {
+    updateInput(indicatorColor);
+    if(indicatorColor != 'white') {
+      currentIndex++;
+      isOnTop(associatedCard);
+    }
+  }
+});
+
+// Determine if card is lower in z-index value than current global z-index
+function isOnTop(focused) {
+  var $currentFocus = focused.parents('div.card'),
+      lower = false;
+  if($currentFocus[0].style.zIndex < currentIndex) {
+    lower = true;
+  }
+  console.log(lower);
+  return lower;
+}
+
+// Convert pixels to vw for animations
 function convertPXtoVW(pxVal) {
   var vwVal = (100 / document.body.clientWidth) * pxVal; //don't cache document.body.clientWidth, we need this get a new value each time.
   return vwVal;
 };
 
-$allCardInputs.on('focus', function() {
-  var clicked = $(this);
-  var inputColor = $(this).attr('card');
-
-  updateIndicators(inputColor);
-  checkIndex(inputColor);
-  console.log(isOnTop($(this)));
-});
-
-// A function to focus on intended card when clicking on the indicator icons
-$allCardIndicators.on('click', function() {
-  // Make sure clicked indicator doesn't match currently focused
-  if(!$(this).hasClass('active')) {
-    // Set focus on corresponding click through updateInput function
-    var indicatorColor = $(this).attr('card');
-    updateIndicators(indicatorColor);
-    checkIndex(indicatorColor);
-  }
-});
-
-// Function to determine if card is lower in z-index value
-isOnTop = (clicked) => {
-  var $currentThis = clicked.parents('div.card'),
-      $currentThat,
-      lower = false;
-  clicked.attr('card') === $pinkLeftInput.attr('card') ? $currentThat = $pinkRight : $currentThat = $pinkLeft;
-  if($currentThis[0].style.zIndex < $currentThat[0].style.zIndex) {
-    // Return true if index is lower
-    lower = true;
-  }
-  return lower;
+// When a user switches their text input field, update 'active' card indicator icon
+function updateIndicators(selectedCard) {
+  $allCardIndicators.removeClass('active');
+  $('svg.indicator[card= ' + selectedCard + ']').addClass('active');
 }
 
-// Function when a user clicks on an indicator card in the UI
-updateInput = (selectedIndicator) => {
+// When a user clicks on an indicator card in the UI, update focus
+function updateInput(selectedIndicator) {
   var $intendedCard = $('textarea.card__input[card= ' + selectedIndicator + ']');
   updateIndicators(selectedIndicator);
   $intendedCard.focus();
 }
 
-// Function when a user switches their text input field
-updateIndicators = (selectedCard) => {
-  $allCardIndicators.removeClass('active');
-  $('svg.indicator[card= ' + selectedCard + ']').addClass('active');
-}
-
-// Function to compare the index values of pink cards when appropriate
-checkIndex = (cardColorValue) => {
-  // Set z-index of focused card if:
-  // Currently set as 'Double Team'
-  // Selected card is pink
-  // z-index of selected card is lower than the other pink card
-  if(doubleTeam && cardColorValue != 'white') {
-    var leftOrRight = $('textarea.card__input[card= ' + cardColorValue + ']').parents('div.card').attr('id').slice(15);
-    if(leftOrRight === 'left') {
-      updateIndex($('#main-card-pink-left'), $('#main-card-pink-right'), leftOrRight);
-    } else {
-      updateIndex($('#main-card-pink-right'), $('#main-card-pink-left'), leftOrRight);
-    }
+// Compare the index values of pink cards when appropriate
+function checkIndex(cardColorValue) {
+  var leftOrRight = $('textarea.card__input[card= ' + cardColorValue + ']').parents('div.card').attr('id').slice(15);
+  if(leftOrRight === 'left') {
+    animateCardChange($('#main-card-pink-left'), $('#main-card-pink-right'), leftOrRight);
+  } else {
+    animateCardChange($('#main-card-pink-right'), $('#main-card-pink-left'), leftOrRight);
   }
 }
 
-// Function to set the proper z-index if 'lower' card is selected
-updateIndex = (top, bottom, animateDirection) => {
-  var twentyPercentWidth = 20;
+// Function to animate the card change, updating z-index and position
+function animateCardChange(top, bottom, animateDirection) {
   var currentLeft =  convertPXtoVW(parseInt(top.css('left')));
   var currentTop = parseInt(top.css('top'));
-  var angle;
   switch(animateDirection) {
     case 'left':
       moveLeft = Math.abs(currentLeft - twentyPercentWidth);
-      angle = '-';
+      angleOrientation = '-';
       break;
     case 'right':
       moveLeft = Math.abs(currentLeft + twentyPercentWidth);
-      angle = '+';
+      angleOrientation = '+';
       break;
     default:
       moveLeft = Math.abs(currentLeft - twentyPercentWidth);
   }
-  console.log(twentyPercentWidth);
-  console.log("current left val:" + currentLeft);
-  console.log("move left val:" + moveLeft);
-  console.log(orignalLeft);
-  top.css({ 'transform': 'rotate(' + angle + ( (Math.random() * 6) + 1 ).toFixed(2) + 'deg)' });
+  top.css({ 'transform': 'rotate(' + angleOrientation + ( (Math.random() * 6) + 1 ).toFixed(2) + 'deg)' });
   top.animate({
     left: moveLeft + 'vw',
     top: currentTop + 50
   }, 350, function() {
-    $(this).css('z-index', index++);
+    $(this).css('z-index', currentIndex);
     top.animate({
       left: currentLeft + 'vw',
       top: currentTop
