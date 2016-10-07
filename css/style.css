@@ -201,7 +201,7 @@ nav {
   line-height: .9;
   text-transform: uppercase;
 }
-.card__inner--dynamic {
+.card__inner--doubleTeam {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -212,10 +212,22 @@ nav {
   color: inherit;
   font-size: 20px;
 }
-.card__inner--dynamic p {
+.card__inner--doubleTeam {
+  display: none;
+}
+.card__description {
   margin: 0 0 0 1rem;
   line-height: 1;
+  font-weight: 300;
 }
+.card__description--bold {
+  position: relative;
+  width: 100%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+/*
 .card__inner--dynamic p:nth-of-type(1) {
   position: relative;
   width: 100%;
@@ -236,6 +248,7 @@ nav {
 .card__inner--dynamic p {
   font-weight: 300;
 }
+*/
 
 /* Card positioning and base animation values */
 #main-card-white {

@@ -1,18 +1,24 @@
-/*
-Notes:
--Build out func. for secondPinkCard; a.k.a Double Team
--Build out blinking cursor
-
-How to incorporate WuFoo forms:
-    -First we try to style the form to match what we want
-    -If that fails, make the form as basic as possible; and
-        -Put form on page
-        -Hide WuFoo form
-        -When a user submits on the fake form, insert the values into the WuFoo form and submit it.
--There might be a way to pull a 'dictionary' for the card.possibilties
-*/
-
 var timer = null;
+
+function setDoubleTeamStatus(status) {
+  var doubleTeamStatus = status;
+  return doubleTeamStatus;
+}
+$('#add-blank-button').click(function addBlank(){
+    //Some code
+});
+$('#card__input--white').blur(function checkSingleorDoubleTeamStatus(){
+  var numberOfBlanks = $(this).val().match(/____/g) == null ? [] : $(this).val().match(/____/g);
+  var cardStatus;
+  if (numberOfBlanks.length == 2) {
+      cardStatus = setDoubleTeamStatus(true);
+  }
+  else {
+      cardStatus = setDoubleTeamStatus(false);
+  }
+  console.log(cardStatus);
+});
+
 
 function buildCardText(cardType) {
   var cardDictionary = JSON.parse(dictionaries),
@@ -52,11 +58,10 @@ function decideCardType() {
     case 1:
         card.type = "pink";
         card.possibilties = buildCardText(card.type);
-        //console.log(card.possibilties);
         break;
     default:
         card.possibilties = "unknown card type";
-        //console.log(card.possibilties);
+        console.log(card.possibilties);
     }
     return card;
 }
