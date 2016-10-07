@@ -49,9 +49,6 @@ body {
   background-size: 100%;
   background-position: fixed;
 }
-form {
-  position: relative;
-}
 .content-wrapper {
   width: 100%;
   height: 100vh;
@@ -135,11 +132,7 @@ nav {
   position: fixed;
   width: 30vw;
   height: 42vw;
-  max-width: 300px;
-  max-height: 420px;
   margin: auto;
-  top: 0;
-  bottom: 0;
   border-width: 1.5vw;
   border-style: solid;
   border-radius: 5%;
@@ -162,7 +155,7 @@ nav {
   background-image: url('../assets/images/pink_bg_1500x2100.jpg');
   background-size: cover;
   background-position: center;
-  /*margin: 0 4vw 0 1vw;*/
+  margin: 0 4vw 0 1vw;
   color: #FFFFFF;
 }
 .card--hidden {
@@ -177,10 +170,10 @@ nav {
   box-sizing: border-box;
 }
 .card--white .card__inner {
-  padding: 1rem 1rem;
+  padding: 2rem 1rem;
 }
 .card--pink .card__inner {
-  padding: 1rem;
+  padding: 2rem;
 }
 .card__input {
   position: absolute;
@@ -201,7 +194,7 @@ nav {
   line-height: .9;
   text-transform: uppercase;
 }
-.card__inner--doubleTeam {
+.card__inner--dynamic {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -212,22 +205,10 @@ nav {
   color: inherit;
   font-size: 20px;
 }
-.card__inner--doubleTeam {
-  display: none;
-}
-.card__description {
+.card__inner--dynamic p {
   margin: 0 0 0 1rem;
   line-height: 1;
-  font-weight: 300;
 }
-.card__description--bold {
-  position: relative;
-  width: 100%;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-/*
 .card__inner--dynamic p:nth-of-type(1) {
   position: relative;
   width: 100%;
@@ -248,39 +229,29 @@ nav {
 .card__inner--dynamic p {
   font-weight: 300;
 }
-*/
 
 /* Card positioning and base animation values */
 #main-card-white {
-  /*top: 150%;*/
-}
-#main-card-pink-right {
-  /*top: 150%;*/
+  top: 150%;
+  z-index: 50;
 }
 #main-card-pink-left {
-  /*top: 150%;*/
+  top: 150%;
+  z-index: 52;
+}
+#main-card-pink-right {
+  display: none;
+  top: 150%;
+  z-index: 51;
 }
 #main-card-white.dealt {
-  /*top: calc(50% - 23.6vw);*/
-  /*left: 12.5vw;*/
-  left: 27.5vw;
-  /*z-index: 325;*/
-  z-index: 350;
   transform: rotate(-1.5deg);
 }
 #main-card-pink-left.dealt {
-  /*top: calc(50% - 23.6vw);*/
-  left: 45vw;
-  /*z-index: 350;*/
-  z-index: 325;
-  transform: rotate(-3deg);
+  transform: rotate(2deg);
 }
 #main-card-pink-right.dealt {
-  /*top: calc(50% - 23.6vw);*/
-  /*left: 60vw;*/
-  left: 55vw;
-  z-index: 300;
-  transform: rotate(2deg);
+  transform: rotate(3deg);
 }
 
 /* Card interface */
@@ -297,46 +268,17 @@ nav {
   position: fixed;
   left: 13.5vw;
 }
-
 .indicators svg {
   width: auto;
   height: 4rem;
   margin: 0 1.5vw 0 0;
   fill: rgb(170,170,170);
   transition: transform .25s;
-  position: relative;
 }
-
 .indicators svg.active {
   transform: scale(1.1);
   transition: transform .25s;
 }
-
-
-/*
-
-.indicator__wrapper {
-  width: auto;
-  height: 4rem;
-  margin: 0 1.5vw 0 0;
-  transition: transform .25s;
-  position: relative;
-}
-.indicator__wrapper.active {
-  transform: scale(1.1);
-  transition: transform .25s;
-}
-.indicator__wrapper.active:before {
-  position: absolute;
-  content: url(http://38.media.tumblr.com/947660155c28fb5a22b99c031087227c/tumblr_na3o8nNGYP1re9bfao1_400.gif);
-  width:100%;
-  height: 100%;
-  z-index: 900;
-}
-.indicator__wrapper svg {
-  fill: rgb(170,170,170);
-}
-*/
 
 /* Button specifics */
 .button__wrapper{
