@@ -32,9 +32,9 @@
           <!-- Left Card -->
           <div id="main-card-white" class="card card--white">
             <div class="card__inner">
-              <textarea id="card__input--white" class="card__input" name="card--white" autofocus card="white"></textarea>
+              <textarea id="card__input--white" class="card__input" name="card--white" autofocus data-card="white"></textarea>
             </div>
-            <div class="card__inner--doubleTeam">
+            <div id="double-team-indicator" class="card__inner--doubleTeam">
               <p class="card__description card__description--bold">Double Team</p>
               <p class="card__description">Pick 2 Cards</p>
             </div>
@@ -42,13 +42,13 @@
           <!-- Right Card -->
           <div id="main-card-pink-left" class="card card--pink">
             <div class="card__inner">
-              <textarea id="card__input--pink" class="card__input" name="card--pink" card="pinkleft"></textarea>
+              <textarea id="card__input--pink" class="card__input" name="card--pink" data-card="pinkleft"></textarea>
             </div>
           </div>
           <!-- Second Right Card -->
           <div id="main-card-pink-right" class="card card--pink">
             <div class="card__inner">
-              <textarea id="card__input--secondPink" class="card__input" name="card--secondPink" card="pinkright"></textarea>
+              <textarea id="card__input--secondPink" class="card__input" name="card--secondPink" data-card="pinkright"></textarea>
             </div>
           </div>
           <div class="card__submit--wrapper button__wrapper">
@@ -58,7 +58,7 @@
                 <path d="M180.2 0H69.7C58.8 0 49.9 8.9 49.9 19.8v174.9c0 10.9 8.9 19.8 19.8 19.8h110.5c10.9 0 19.8-8.9 19.8-19.8V19.8C200 8.9 191.1 0 180.2 0z" />
                 <path d="M35.6 204.7c.6 10.6 9.3 18.8 19.7 18.8h1.1l94.4-4.9H69.3c-13.3 0-24.2-10.8-24.2-24.2v-174c0-3.7.8-7.1 2.3-10.3l-2 .1c-10.9.4-19.3 9.8-18.7 20.7l8.9 173.8z" />
               </svg>
-              <input id="submit-cards" type="submit" value="Send My Idea">
+              <input id="submit-cards" type="submit" value="Submit My Idea">
             </div>
           </div>
         </form>
@@ -66,17 +66,17 @@
       <div class="content-section--twenty-percent-height content-section__interface-wrapper">
         <div class="indicators flex">
           <div class="indicator__wrapper">
-            <svg id="white-card-indicator" class="active indicator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150.1 214.5" card="white">
+            <svg id="white-card-indicator" class="active indicator indicator--white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150.1 214.5" data-card="white">
               <path d="M130.3 0H19.8C8.9 0 0 8.9 0 19.8v174.9c0 10.9 8.9 19.8 19.8 19.8h110.5c10.9 0 19.8-8.9 19.8-19.8V19.8c0-10.9-8.9-19.8-19.8-19.8z" />
             </svg>
           </div>
           <div class="indicator__wrapper">
-            <svg id="pink-card-indicator-1" class="indicator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150.1 214.5" card="pinkleft">
+            <svg id="pink-card-indicator-1" class="indicator indicator--pink" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150.1 214.5" data-card="pinkleft">
               <path d="M130.3 0H19.8C8.9 0 0 8.9 0 19.8v174.9c0 10.9 8.9 19.8 19.8 19.8h110.5c10.9 0 19.8-8.9 19.8-19.8V19.8c0-10.9-8.9-19.8-19.8-19.8z" />
             </svg>
           </div>
           <div class="indicator__wrapper">
-            <svg id="pink-card-indicator-2" class="indicator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150.1 214.5" card="pinkright">
+            <svg id="pink-card-indicator-2" class="indicator indicator--pink inactive" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150.1 214.5" data-card="pinkright">
               <path d="M130.3 0H19.8C8.9 0 0 8.9 0 19.8v174.9c0 10.9 8.9 19.8 19.8 19.8h110.5c10.9 0 19.8-8.9 19.8-19.8V19.8c0-10.9-8.9-19.8-19.8-19.8z" />
             </svg>
           </div>
@@ -89,10 +89,14 @@
         </div>
       </div>
     </div>
+
+    <button id="clearDecks" class="test-buttons" onclick="clearCards()">Clear Decks</button>
+    <button id="dealDecks" class="test-buttons" onclick="dealCards()">Deal Decks</button>
+    <button id="singleTeam" class="test-buttons" onclick="removeDoubleTeam()">Single Team</button>
   </article>
   <script type="text/javascript" src="js/cardDictionary.json"></script>
   <script type="text/javascript" src="js/script.js"></script>
-<!--  <script type="text/javascript" src="js/jim-script.js"></script> -->
+  <script type="text/javascript" src="js/jim-script.js"></script>
 </body>
 
 </html>
