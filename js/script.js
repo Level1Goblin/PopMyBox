@@ -16,7 +16,7 @@ $('#card__input--white').blur(function checkSingleorDoubleTeamStatus(){
   else {
       cardStatus = setDoubleTeamStatus(false);
   }
-  console.log(cardStatus);
+  //console.log(cardStatus);
 });
 
 

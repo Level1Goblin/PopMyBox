@@ -230,19 +230,36 @@ nav {
   font-weight: 300;
 }
 
+/* Double Team Card Overlay */
+.card__inner--doubleTeam {
+  position: absolute;
+  bottom: 0;
+  display: none;
+}
+.card__inner--doubleTeam.visible {
+  display: block;
+}
+.card__inner--doubleTeam p {
+  margin: 0;
+  line-height: 1.5;
+}
+.card__description--bold {
+  font-weight: 900;
+}
+
 /* Card positioning and base animation values */
 #main-card-white {
   top: 150%;
-  z-index: 50;
+  z-index: 52;
 }
 #main-card-pink-left {
   top: 150%;
-  z-index: 52;
+  z-index: 51;
 }
 #main-card-pink-right {
   display: none;
   top: 150%;
-  z-index: 51;
+  z-index: 50;
 }
 #main-card-white.dealt {
   transform: rotate(-1.5deg);
@@ -256,28 +273,40 @@ nav {
 
 /* Card interface */
 .content-section__interface-wrapper {
-  width: 100%;
   position: fixed;
   left: 0;
   bottom: 0;
+  width: 100%;
+  padding: 0 13.5vw;
   z-index: 250;
 }
 
 /* Indicator cards */
 .indicators {
-  position: fixed;
-  left: 13.5vw;
+  position: absolute;
+  top: -1.25rem;
 }
 .indicators svg {
   width: auto;
   height: 4rem;
   margin: 0 1.5vw 0 0;
-  fill: rgb(170,170,170);
   transition: transform .25s;
+  border-radius: 6px;
+  box-sizing: border-box;
 }
 .indicators svg.active {
   transform: scale(1.1);
   transition: transform .25s;
+}
+.indicator--white {
+  fill: white;
+  border: 1px solid rgb(210, 33, 150);
+}
+.indicator--pink {
+  fill: rgb(210, 33, 150);
+}
+.indicator--pink.inactive {
+  fill: rgb(225,225,225);
 }
 
 /* Button specifics */
@@ -427,4 +456,23 @@ span.underline-span {
   .card--white, .card--pink {
     margin: 5vw 0;
   }
+}
+
+
+.test-buttons {
+  display: block;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 100px;
+  height: 35px;
+  line-height: 25px;
+  font-size: 15px;
+  padding: 5px;
+}
+#dealDecks {
+  top: 65px;
+}
+#singleTeam {
+  top: 110px;
 }

@@ -1,51 +1,6 @@
-/*
-
-Putting these scripts into a 'test' file called Jim's Scripts.
-These should work but might not be pretty cause I'm scripting as I build.
-
-TO-DO:
-- Trigger action when user enters field
-- Count the number of spaces currently in the text field
-- Increment/Decrement counter based on current space count
-- Activate the correpsonding card indicator when user enters a text field
-- Set the z-index of the currently selected card
-
-NOTES FOLLOWING CONVERSATION:
-
-Structure of elements:
-***************************************
-THE CARDS
-- DIV : CARD
-- - DIV : CARD-INNER
-- - - TEXTAREA : CARD-INPUT
-
-Card Actions:
-  - DIV : CARD :
-    - Animate
-    - Sort/Bring to Front
-Card Triggers:
-  - DIV : CARD: TEXTAREA
-    - On Focus
-    - On Leave
-***************************************
-THE INDICATORS
-- SVG : INDICATOR
-
-Indicator Actions:
-  - SVG : INDICATOR
-    - Animate
-
-Indicator Triggers:
-  - SVG : INDICATOR
-    - Click
-***************************************
-
-*/
-
 // Set doubleTeam to True for testing
-var doubleTeam = true;
+var doubleTeam = false;
 var currentIndex = 52;
-var twentyPercentWidth = 20;
 var angleOrientation;
 var leftVal;
 
@@ -55,29 +10,110 @@ var $allCardIndicators = $('svg.indicator');
 
 var $white = $('#main-card-white');
 var $whiteInput = $('#main-card-white div textarea.card__input');
+var $whiteIndicator = $('#white-card-indicator');
+var $doubleTeamIndicator = $('#double-team-indicator');
 
 var $pinkLeft = $('#main-card-pink-left');
 var $pinkLeftInput = $('#main-card-pink-left div textarea.card__input');
+var $pinkLeftIndicator = $('#pink-card-indicator-1');
 
 var $pinkRight = $('#main-card-pink-right');
 var $pinkRightInput = $('#main-card-pink-right div textarea.card__input');
+var $pinkRightIndicator = $('#pink-card-indicator-2');
 
 var $cardHeight = $white.height();
 var fiftyPercentHeight = (window.innerHeight / 2) - ($cardHeight / 1.5);
 
 /* 'Set the stage on page load' */
 (function() {
-  $pinkLeft.css('z-index', 52);
   dealCards();
 })();
 
-/* Deal the cards */
+function enableDoubleTeam() {
+  $doubleTeamIndicator.addClass('visible');
+  doubleTeam = true;
+}
+function disableDoubleTeam() {
+  $doubleTeamIndicator.removeClass('visible');
+  doubleTeam = false;
+}
+// Event Handler - on focus forms : Controlling Function
+$allCardInputs.on('focus', function(event) {
+  if (!$('svg.indicator[data-card= ' + $(this).attr('data-card') + ']').hasClass('active')) {
+    focusCard($(this), $(this).parents('div.card'), $(this).attr('data-card'));
+  }
+});
+
+// Event Handler - on click for indicator icons : Controlling Function
+$whiteIndicator.on('click', function() {
+  if (!$(this).hasClass('active')) {
+    $('textarea.card__input[data-card= ' + $(this).attr('data-card') + ']').focus();
+  }
+});
+
+$pinkLeftIndicator.on('click', function() {
+  if (!$(this).hasClass('active')) {
+    $('textarea.card__input[data-card= ' + $(this).attr('data-card') + ']').focus();
+  }
+});
+
+$pinkRightIndicator.on('click', function() {
+  if (!$(this).hasClass('active') && !doubleTeam) {
+    animateDoubleTeam();
+  } else if (!$(this).hasClass('active')) {
+    $('textarea.card__input[data-card= ' + $(this).attr('data-card') + ']').focus();
+  }
+});
+
+// Top level function for setting focused card to front
+function focusCard(focusedCardTextArea, focusedCard, focusedCardData) {
+  // Update the icon
+  $allCardIndicators.removeClass('active');
+  $('svg.indicator[data-card= ' + focusedCardData + ']').addClass('active');
+
+  // Bring to front
+  if (focusedCardData !== 'white' && !doubleTeam) {
+    setToFront(focusedCard);
+  } else if (focusedCardData !== 'white' && doubleTeam) {
+    animateToFront(focusedCardData);
+  }
+}
+
+// Determine if card is lower in z-index value than current global z-index (currentIndex)
+function isOnTop(focused) {
+  var onTop = false;
+  focused[0].style.zIndex >= currentIndex ? onTop = true : onTop = false;
+  return onTop;
+}
+
+// Set the current card to top-most value with no animation
+function setToFront(card) {
+  currentIndex++;
+  card.css('z-index', currentIndex);
+}
+
+// Animate the card change based on which side the card is on
+function animateToFront(cardColorValue) {
+  $white.css('z-index', 50);
+  var leftOrRight = $('textarea.card__input[data-card= ' + cardColorValue + ']').parents('div.card').attr('id').slice(15);
+  if (leftOrRight === 'left') {
+    if( $('#main-card-pink-left').css('z-index') < $('#main-card-pink-right').css('z-index')) {
+      animateCardChange($('#main-card-pink-left'), $('#main-card-pink-right'), leftOrRight);
+    }
+  } else {
+    if($('#main-card-pink-right').css('z-index') < $('#main-card-pink-left').css('z-index')) {
+      animateCardChange($('#main-card-pink-right'), $('#main-card-pink-left'), leftOrRight);
+    }
+  }
+}
+
+// Deal the cards
 function dealCards() {
-  $.each($allCards, function( index, value ) {
+  $.each($allCards, function(index, value) {
     $(this).animate({
       top: fiftyPercentHeight
     }, 500, function() {
-      switch(index) {
+      switch (index) {
         case 0:
           leftVal = '20vw';
           break;
@@ -85,7 +121,7 @@ function dealCards() {
           leftVal = '55vw';
           break;
         case 2:
-          leftVal = '60vw';
+          leftVal = '100vw';
           break;
         default:
           leftVal = '20vw';
@@ -96,50 +132,76 @@ function dealCards() {
       }, 350);
     });
   });
+  $whiteInput.focus();
 }
 
-/* Collect the cards, remove from view */
+// Collect the cards, remove from view
 function clearCards() {
-  $.each($allCards, function( index, value ) {
+  $.each($allCards, function(index, value) {
     $(this).animate({
-      top: '150%'
-    }, 500);
+      left: '40%'
+    }, 500, function() {
+      $(this).animate({
+        top: '150%',
+      }, 500);
+    });
   });
+  $allCardIndicators.removeClass('active');
+  $pinkRightIndicator.addClass('inactive');
+  setTimeout(function() {
+    $pinkRight.css({
+      display: 'none'
+    });
+    $pinkLeft.css({
+      transform: 'rotate(' + ((Math.random() * 6) + 1).toFixed(2) + 'deg)'
+    });
+  }, 1000);
+  doubleTeam = false;
 }
 
-/* Event Handler - on focus forms : Controlling Function */
-$allCardInputs.on('focus', function(event) {
-  var inputColor = $(this).attr('card');
-  updateIndicators(inputColor);
-  if(inputColor != 'white' && isOnTop($(this))) {
-    currentIndex++;
-    checkIndex(inputColor);
-  }
-});
+// Bring in three for double team
+function animateDoubleTeam() {
+  currentIndex++;
+  $pinkRightIndicator.removeClass('inactive');
+  $pinkRight.css('z-index', currentIndex);
+  $pinkRight.css({
+    display: 'block',
+    transform: 'rotate(' + ((Math.random() * 6) + 1).toFixed(2) + 'deg)'
+  });
+  $pinkRightInput.focus();
+  setTimeout(function() {
+    $pinkLeft.animate({
+      left: '51vw',
+    }, 600);
+    $pinkRight.animate({
+      left: '60vw'
+    }, 500);
+    $pinkLeft.css({
+      transform: 'rotate(' + -(((Math.random() * 6) + 1).toFixed(2)) + 'deg)'
+    });
+  }, 250);
+  enableDoubleTeam();
+}
 
-/* Event Handler - on click icons : Controlling Function */
-$allCardIndicators.on('click', function() {
-  var indicatorColor = $(this).attr('card');
-  var associatedCard = $('textarea.card__input[card= ' + indicatorColor + ']');
-
-  if(!$(this).hasClass('active')) {
-    updateInput(indicatorColor);
-    if(indicatorColor != 'white') {
-      currentIndex++;
-      isOnTop(associatedCard);
-    }
-  }
-});
-
-// Determine if card is lower in z-index value than current global z-index
-function isOnTop(focused) {
-  var $currentFocus = focused.parents('div.card'),
-      lower = false;
-  if($currentFocus[0].style.zIndex < currentIndex) {
-    lower = true;
-  }
-  console.log(lower);
-  return lower;
+// Set back to two for removal of double team
+function removeDoubleTeam() {
+  $whiteInput.focus();
+  $pinkRightIndicator.addClass('inactive');
+  $pinkLeft.animate({
+    left: '55vw',
+  }, 600);
+  $pinkRight.animate({
+    left: '100vw'
+  }, 500);
+  $pinkLeft.css({
+    transform: 'rotate(' + ((Math.random() * 6) + 1).toFixed(2) + 'deg)'
+  });
+  setTimeout(function() {
+    $pinkRight.css({
+      'display': 'none'
+    });
+  }, 1000);
+  disableDoubleTeam();
 }
 
 // Convert pixels to vw for animations
@@ -148,49 +210,29 @@ function convertPXtoVW(pxVal) {
   return vwVal;
 };
 
-// When a user switches their text input field, update 'active' card indicator icon
-function updateIndicators(selectedCard) {
-  $allCardIndicators.removeClass('active');
-  $('svg.indicator[card= ' + selectedCard + ']').addClass('active');
-}
-
-// When a user clicks on an indicator card in the UI, update focus
-function updateInput(selectedIndicator) {
-  var $intendedCard = $('textarea.card__input[card= ' + selectedIndicator + ']');
-  updateIndicators(selectedIndicator);
-  $intendedCard.focus();
-}
-
-// Compare the index values of pink cards when appropriate
-function checkIndex(cardColorValue) {
-  var leftOrRight = $('textarea.card__input[card= ' + cardColorValue + ']').parents('div.card').attr('id').slice(15);
-  if(leftOrRight === 'left') {
-    animateCardChange($('#main-card-pink-left'), $('#main-card-pink-right'), leftOrRight);
-  } else {
-    animateCardChange($('#main-card-pink-right'), $('#main-card-pink-left'), leftOrRight);
-  }
-}
-
-// Function to animate the card change, updating z-index and position
+// Animate the card change, updating z-index and position
 function animateCardChange(top, bottom, animateDirection) {
-  var currentLeft =  convertPXtoVW(parseInt(top.css('left')));
+  currentIndex++;
+  var currentLeft = convertPXtoVW(parseInt(top.css('left')));
   var currentTop = parseInt(top.css('top'));
-  switch(animateDirection) {
+  switch (animateDirection) {
     case 'left':
-      moveLeft = Math.abs(currentLeft - twentyPercentWidth);
+      moveLeft = Math.abs(currentLeft - 25);
       angleOrientation = '-';
       break;
     case 'right':
-      moveLeft = Math.abs(currentLeft + twentyPercentWidth);
+      moveLeft = Math.abs(currentLeft + 25);
       angleOrientation = '+';
       break;
     default:
-      moveLeft = Math.abs(currentLeft - twentyPercentWidth);
+      moveLeft = Math.abs(currentLeft - 25);
   }
-  top.css({ 'transform': 'rotate(' + angleOrientation + ( (Math.random() * 6) + 1 ).toFixed(2) + 'deg)' });
+  top.css({
+    'transform': 'rotate(' + angleOrientation + ((Math.random() * 6) + 1).toFixed(2) + 'deg)'
+  });
   top.animate({
     left: moveLeft + 'vw',
-    top: currentTop + 50
+    top: currentTop + 5
   }, 350, function() {
     $(this).css('z-index', currentIndex);
     top.animate({
