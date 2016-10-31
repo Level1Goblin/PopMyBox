@@ -1,29 +1,102 @@
-var timer = null;
+var timer = null,
+blank = " _____ ",
+$addBlankButton = $('#add-blank-button'),
+$blankCounter = $('#blank-counter'),
+
+$whiteCard = $('#card__input--white'),
+
+$pinkLeft = $('#main-card-pink-left'),
+$pinkLeftInput = $('#card__input--pink'),
+$pinkLeftIndicator = $('#pink-card-indicator-1'),
+
+$pinkRight = $('#main-card-pink-right'),
+$pinkRightInput = $('#card__input--secondPink'),
+$pinkRightIndicator = $('#pink-card-indicator-2');
+
+function enableDoubleTeam() {
+  $doubleTeamIndicator.addClass('visible');
+  doubleTeam = true;
+}
+
+// Bring in three for double team
+function animateDoubleTeam() {
+  currentIndex++;
+  $pinkRightIndicator.removeClass('inactive');
+  $pinkRight.css('z-index', currentIndex);
+  $pinkRight.css({
+    display: 'block',
+    transform: 'rotate(' + ((Math.random() * 6) + 1).toFixed(2) + 'deg)'
+  });
+  $pinkRightInput.focus();
+  setTimeout(function() {
+    $pinkLeft.animate({
+      left: '51vw',
+    }, 600);
+    $pinkRight.animate({
+      left: '60vw'
+    }, 500);
+    $pinkLeft.css({
+      transform: 'rotate(' + -(((Math.random() * 6) + 1).toFixed(2)) + 'deg)'
+    });
+  }, 250);
+  enableDoubleTeam();
+}
+
+function performDoubleTeamActions() {
+  animateDoubleTeam();
+}
+
+function performSingleTeamActions() {
+  //code
+}
 
 function setDoubleTeamStatus(status) {
   var doubleTeamStatus = status;
-  return doubleTeamStatus;
-}
-$('#add-blank-button').click(function addBlank(){
-    //Some code
-});
-$('#card__input--white').blur(function checkSingleorDoubleTeamStatus(){
-  var numberOfBlanks = $(this).val().match(/____/g) == null ? [] : $(this).val().match(/____/g);
-  var cardStatus;
-  if (numberOfBlanks.length == 2) {
-      cardStatus = setDoubleTeamStatus(true);
+  if (doubleTeamStatus) {
+    performDoubleTeamActions();
   }
   else {
-      cardStatus = setDoubleTeamStatus(false);
+    performSingleTeamActions();
   }
-  //console.log(cardStatus);
-});
+}
+
+function updateBlankIndicator(numberOfBlanks) {
+  $blankCounter.text(numberOfBlanks);
+}
+
+function addBlank() {
+    $whiteCard.val($whiteCard.val() + blank);
+    countNumberofBlanks();
+}
+
+function countNumberofBlanks() {
+  var numberOfBlanks = $whiteCard.val().match(/____/g) == null ? 0 : $whiteCard.val().match(/____/g);
+  if (numberOfBlanks == 0) {
+    updateBlankIndicator(numberOfBlanks);
+    return numberOfBlanks;
+  }
+  else {
+    updateBlankIndicator(numberOfBlanks.length);
+    return numberOfBlanks.length;
+  }
+}
+
+function checkSingleorDoubleTeamStatus() {
+  var numberOfBlanks = countNumberofBlanks();
+  console.log(numberOfBlanks);
+  if (numberOfBlanks == 2) {
+      setDoubleTeamStatus(true);
+      console.log('hit1');
+  }
+  else {
+      setDoubleTeamStatus(false);
+  }
+}
 
 
 function buildCardText(cardType) {
   var cardDictionary = JSON.parse(dictionaries),
   dictionaryToUse,
-  blank = "_____",
   cardText = [];
 
   switch (cardType) {
@@ -75,7 +148,6 @@ function getRandomNumber(cardArray) {
 
 function typeText(card, text, textLength, subString) {
     'use strict';
-
     runTrigger(false); //stop the overall timer, and let the loop run.
     subString = text.substr(0, textLength);
     textLength = textLength + 1;

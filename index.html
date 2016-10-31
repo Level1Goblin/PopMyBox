@@ -32,7 +32,7 @@
           <!-- Left Card -->
           <div id="main-card-white" class="card card--white">
             <div class="card__inner">
-              <textarea id="card__input--white" class="card__input" name="card--white" autofocus data-card="white"></textarea>
+              <textarea id="card__input--white" class="card__input" name="card--white" autofocus data-card="white" onblur="checkSingleorDoubleTeamStatus()"></textarea>
             </div>
             <div id="double-team-indicator" class="card__inner--doubleTeam">
               <p class="card__description card__description--bold">Double Team</p>
@@ -81,11 +81,11 @@
             </svg>
           </div>
         </div>
-        <div class="add-blank button__wrapper">
+        <div class="add-blank button__wrapper" onclick="addBlank()">
           <div id="add-blank-button" class="button">Add a Space</div>
         </div>
         <div class="button__wrapper space-counter">
-          <p>0</p>
+          <p id="blank-counter">0</p>
         </div>
       </div>
     </div>
