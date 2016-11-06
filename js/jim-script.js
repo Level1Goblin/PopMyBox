@@ -29,14 +29,18 @@ var fiftyPercentHeight = (window.innerHeight / 2) - ($cardHeight / 1.5);
   dealCards();
 })();
 
+/*
 function enableDoubleTeam() {
   $doubleTeamIndicator.addClass('visible');
   doubleTeam = true;
 }
+*/
+/*
 function disableDoubleTeam() {
   $doubleTeamIndicator.removeClass('visible');
   doubleTeam = false;
 }
+*/
 // Event Handler - on focus forms : Controlling Function
 $allCardInputs.on('focus', function(event) {
   if (!$('svg.indicator[data-card= ' + $(this).attr('data-card') + ']').hasClass('active')) {
@@ -160,6 +164,7 @@ function clearCards() {
 }
 
 // Bring in three for double team
+/*
 function animateDoubleTeam() {
   currentIndex++;
   $pinkRightIndicator.removeClass('inactive');
@@ -182,8 +187,10 @@ function animateDoubleTeam() {
   }, 250);
   enableDoubleTeam();
 }
+*/
 
 // Set back to two for removal of double team
+/*
 function removeDoubleTeam() {
   $whiteInput.focus();
   $pinkRightIndicator.addClass('inactive');
@@ -203,6 +210,7 @@ function removeDoubleTeam() {
   }, 1000);
   disableDoubleTeam();
 }
+*/
 
 // Convert pixels to vw for animations
 function convertPXtoVW(pxVal) {

@@ -1,4 +1,5 @@
 var timer = null,
+numberOfVisibleCards = 2;
 blank = " _____ ",
 $addBlankButton = $('#add-blank-button'),
 $blankCounter = $('#blank-counter'),
@@ -16,6 +17,11 @@ $pinkRightIndicator = $('#pink-card-indicator-2');
 function enableDoubleTeam() {
   $doubleTeamIndicator.addClass('visible');
   doubleTeam = true;
+}
+
+function disableDoubleTeam() {
+  $doubleTeamIndicator.removeClass('visible');
+  doubleTeam = false;
 }
 
 // Bring in three for double team
@@ -42,12 +48,35 @@ function animateDoubleTeam() {
   enableDoubleTeam();
 }
 
+// Set back to two for removal of double team
+function removeDoubleTeam() {
+  $whiteInput.focus();
+  $pinkRightIndicator.addClass('inactive');
+  $pinkLeft.animate({
+    left: '55vw',
+  }, 600);
+  $pinkRight.animate({
+    left: '100vw'
+  }, 500);
+  $pinkLeft.css({
+    transform: 'rotate(' + ((Math.random() * 6) + 1).toFixed(2) + 'deg)'
+  });
+  setTimeout(function() {
+    $pinkRight.css({
+      'display': 'none'
+    });
+  }, 1000);
+  disableDoubleTeam();
+}
+
 function performDoubleTeamActions() {
   animateDoubleTeam();
+  numberOfVisibleCards = 3;
 }
 
 function performSingleTeamActions() {
-  //code
+    removeDoubleTeam();
+    numberOfVisibleCards = 2
 }
 
 function setDoubleTeamStatus(status) {
@@ -64,9 +93,12 @@ function updateBlankIndicator(numberOfBlanks) {
   $blankCounter.text(numberOfBlanks);
 }
 
+//Add a new blank to the white card
 function addBlank() {
-    $whiteCard.val($whiteCard.val() + blank);
-    countNumberofBlanks();
+    if (countNumberofBlanks() <= 2) {
+      $whiteCard.val($whiteCard.val() + blank);
+      countNumberofBlanks()
+    }
 }
 
 function countNumberofBlanks() {
@@ -83,10 +115,8 @@ function countNumberofBlanks() {
 
 function checkSingleorDoubleTeamStatus() {
   var numberOfBlanks = countNumberofBlanks();
-  console.log(numberOfBlanks);
   if (numberOfBlanks == 2) {
       setDoubleTeamStatus(true);
-      console.log('hit1');
   }
   else {
       setDoubleTeamStatus(false);
@@ -103,10 +133,13 @@ function buildCardText(cardType) {
   case "white":
     dictionaryToUse = cardDictionary.whiteCardDictionary;
     break;
-  case "pinkDouble":
+  case "doubleWhite":
     dictionaryToUse = cardDictionary.whiteDoubleCardDictionary;
     break;
   case "pink":
+    dictionaryToUse = cardDictionary.pinkCardDictionary;
+    break;
+  case "secondPink":
     dictionaryToUse = cardDictionary.pinkCardDictionary;
     break;
   }
@@ -116,20 +149,29 @@ function buildCardText(cardType) {
   return cardText;
 }
 
-function decideCardType() {
+function decideCardType(numberOfVisibleCards) {
     "use strict";
     var randomNumber,
         card = {};
 
-    randomNumber = Math.floor(Math.random() * 2);
+    randomNumber = Math.floor(Math.random() * numberOfVisibleCards);
 
     switch (randomNumber) {
     case 0:
-        card.type = "white";
+        if (numberOfVisibleCards == 3) {
+          card.type = "secondPink";
+        }
+        else {
+          card.type = "white";
+        }
         card.possibilties = buildCardText(card.type);
         break;
     case 1:
         card.type = "pink";
+        card.possibilties = buildCardText(card.type);
+        break;
+    case 2:
+        card.type = "secondPink";
         card.possibilties = buildCardText(card.type);
         break;
     default:
@@ -163,7 +205,7 @@ function typeText(card, text, textLength, subString) {
 
 function changeCardText() {
     "use strict";
-    var card = decideCardType(),
+    var card = decideCardType(numberOfVisibleCards),
         cardToChange,
         textLength = 0,
         subString = "",
